@@ -1,12 +1,16 @@
-# homebridge-sonoff-tasmota-http
+# homebridge-sonoff
 
 This is a plugin for [homebridge](https://github.com/nfarina/homebridge) which makes it possible to control Sonoff Basic devices with [Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware through HTTP only
 
 The Tasmota compatible version of the plugin is 5.11.0 and later
 
-If you need compatibility with previous Tasmota versions, fork this commit: https://github.com/ageorgios/homebridge-sonoff-tasmota-http/tree/6f73a32fd8ae01f16813f8f0bd3844d3da469e4d
+# Installation
+```bash
+npm i -g homebridge-sonoff
+```
 
 # Information
+Used HTTP routes:
 ```
 http://sonoff/cm?cmnd=Power
 http://sonoff/cm?cmnd=Power%20On
@@ -17,11 +21,11 @@ http://sonoff/cm?cmnd=Power%20Off
 
 ```json
 {
-  "accessory": "SonoffTasmotaHTTP",
+  "platform": "Sonoff",
   "name": "Sonoff",
   "devices": [
     {
-      "name": "Sonoff",
+      "name": "Name of of the accessory",
       "hostname": "The hostname or local ip address of the Sonoff device"
     }
   ]
@@ -32,11 +36,11 @@ http://sonoff/cm?cmnd=Power%20Off
 
 ```json
 {
-  "accessory": "SonoffTasmotaHTTP",
+  "platform": "Sonoff",
   "name": "Sonoff",
   "devices": [
     {
-      "name": "Sonoff",
+      "name": "Name of of the accessory",
       "hostname": "The hostname or local ip address of the Sonoff device",
       "relay": "2"
     }
@@ -48,11 +52,11 @@ http://sonoff/cm?cmnd=Power%20Off
 
 ```json
 {
-  "accessory": "SonoffTasmotaHTTP",
+  "platform": "Sonoff",
   "name": "Sonoff",
   "devices": [
     {
-      "name": "Sonoff",
+      "name": "Name of of the accessory",
       "hostname": "The hostname or local ip address of the Sonoff device",
       "password": "The password from the web interface"
     }
