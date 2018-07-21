@@ -19,7 +19,12 @@ http://sonoff/cm?cmnd=Power%20Off
 {
   "accessory": "SonoffTasmotaHTTP",
   "name": "Sonoff",
-  "hostname": "The hostname of the Sonoff device"
+  "devices": [
+    {
+      "name": "Sonoff",
+      "hostname": "The hostname or local ip address of the Sonoff device"
+    }
+  ]
 }
 ```
 
@@ -29,8 +34,13 @@ http://sonoff/cm?cmnd=Power%20Off
 {
   "accessory": "SonoffTasmotaHTTP",
   "name": "Sonoff",
-  "relay": "2",
-  "hostname": "The hostname of the Sonoff device"
+  "devices": [
+    {
+      "name": "Sonoff",
+      "hostname": "The hostname or local ip address of the Sonoff device",
+      "relay": "2"
+    }
+  ]
 }
 ```
 
@@ -40,7 +50,12 @@ http://sonoff/cm?cmnd=Power%20Off
 {
   "accessory": "SonoffTasmotaHTTP",
   "name": "Sonoff",
-  "password": "The password from the web interface",
-  "hostname": "The hostname of the Sonoff device"
+  "devices": [
+    {
+      "name": "Sonoff",
+      "hostname": "The hostname or local ip address of the Sonoff device",
+      "password": "The password from the web interface"
+    }
+  ]
 }
 ```
