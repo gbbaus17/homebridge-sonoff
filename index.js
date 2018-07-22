@@ -1,38 +1,40 @@
-let Service, Characteristic, Accessory, UUIDGen;
-let request = require('request');
+const request = require('request');
+
 const pluginName = 'homebridge-sonoff';
 const platformName = 'Sonoff';
 
-module.exports = function (homebridge) {
-  Service = homebridge.hap.Service;
-  Characteristic = homebridge.hap.Characteristic;
-  Accessory = homebridge.platformAccessory;
-  UUIDGen = homebridge.hap.uuid;
-
-  homebridge.registerPlatform(pluginName, platformName, Sonoff, true);
-}
+let Service;
+let Characteristic;
+let Accessory;
+let UUIDGen;
 
 function Sonoff(log, config, api) {
   const platform = this;
   platform.log = log;
   platform.accessories = [];
   platform.config = config;
-  config.devices = config.devices || [];
+  platform.config.devices = platform.config.devices || [];
 
-  for (let i = 0; i < config.devices.length; i++) {
-    config.devices[i] = config.devices[i] || {};
-    config.devices[i].name = config.devices[i].name || 'Sonoff';
-    config.devices[i].hostname = config.devices[i].hostname || 'sonoff';
-    config.devices[i].relay = config.devices[i].relay || '';
-    config.devices[i].password = config.devices[i].password || '';
+  for (let i = 0; i < platform.config.devices.length; i += 1) {
+    platform.config.devices[i] =
+      platform.config.devices[i] || {};
+    platform.config.devices[i].name =
+      platform.config.devices[i].name || 'Sonoff';
+    platform.config.devices[i].hostname =
+      platform.config.devices[i].hostname || 'sonoff';
+    platform.config.devices[i].relay =
+      platform.config.devices[i].relay || '';
+    platform.config.devices[i].password =
+      platform.config.devices[i].password || '';
   }
 
   if (api) {
     platform.api = api;
-    platform.api.on('didFinishLaunching', function () {
-      platform.log("Cached accessories loaded.");
-      if (platform.accessories.length < config.devices.length) {
-        for (let i = platform.accessories.length; i < config.devices.length; i++) {
+    platform.api.on('didFinishLaunching', () => {
+      platform.log('Cached accessories loaded.');
+      if (platform.accessories.length < platform.config.devices.length) {
+        for (let i = platform.platform.accessories.length;
+          i < config.devices.length; i += 1) {
           platform.addAccessory(i);
         }
       }
@@ -40,20 +42,32 @@ function Sonoff(log, config, api) {
   }
 }
 
+module.exports = (homebridge) => {
+  Service = homebridge.hap.Service;
+  Characteristic = homebridge.hap.Characteristic;
+  Accessory = homebridge.platformAccessory;
+  UUIDGen = homebridge.hap.uuid;
+
+  homebridge.registerPlatform(pluginName, platformName, Sonoff, true);
+};
+
 Sonoff.prototype.addAccessory = function (index) {
   const platform = this;
 
   const accessoryName = platform.config.devices[index].name;
-  const accessory = new Accessory(accessoryName, UUIDGen.generate(accessoryName));
+  const accessory = new Accessory(accessoryName,
+    UUIDGen.generate(accessoryName));
 
   accessory.context = { index };
   accessory.addService(Service.Outlet, accessoryName);
 
-  platform.log('Added ' + accessoryName);
-  platform.api.registerPlatformAccessories(pluginName, platformName, [accessory]);
+  platform.log(`Added ${accessoryName}`);
+  platform.api.registerPlatformAccessories(pluginName, platformName,
+    [accessory]);
   platform.configureAccessory(accessory);
-}
+};
 
+/* eslint max-len: ["error", { "ignoreComments": true }] no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["accessory"] }] */
 Sonoff.prototype.configureAccessory = function (accessory) {
   const platform = this;
 
@@ -74,11 +88,12 @@ Sonoff.prototype.configureAccessory = function (accessory) {
   const config = platform.config.devices[index];
   accessory.context.relay = config.relay;
   accessory.context.hostname = config.hostname;
-  accessory.context.url = `http://${config.hostname}/cm?user=admin&password=${config.password}&cmnd=Power${config.relay}`;
+  accessory.context.url = `http://${config.hostname
+    }/cm?user=admin&password=${config.password}&cmnd=Power${config.relay}`;
 
   accessory.getService(Service.AccessoryInformation)
-    .setCharacteristic(Characteristic.Manufacturer, "Sonoff")
-    .setCharacteristic(Characteristic.Model, "Basic")
+    .setCharacteristic(Characteristic.Manufacturer, 'Sonoff')
+    .setCharacteristic(Characteristic.Model, 'Basic')
     .setCharacteristic(Characteristic.SerialNumber, config.hostname);
 
   accessory.getService(Service.Outlet).getCharacteristic(Characteristic.On)
@@ -89,30 +104,31 @@ Sonoff.prototype.configureAccessory = function (accessory) {
         return;
       }
 
-      platform.log(`Get state: ${accessory.context.url}, Body: ${JSON.stringify(response)}`);
-      callback(null, response['POWER' + accessory.context.relay] === 'ON' ? 1 : 0);
+      callback(null,
+        response[`POWER${accessory.context.relay}`] === 'ON' ? 1 : 0);
     })
     .on('set', async (toggle, callback) => {
-      const response = await platform.sendRequest(`${accessory.context.url}%20${toggle ? 'On' : 'Off'}`);
+      const response = await platform
+        .sendRequest(`${accessory.context.url}%20${toggle ? 'On' : 'Off'}`);
       if (!response) {
         callback(new Error('Could not set state'));
         return;
       }
 
-      platform.log(`Set state: ${accessory.context.url}, Body: ${JSON.stringify(response)}`);
       callback();
     });
 
-  platform.log('Loaded accessory ' + accessory.displayName);
-}
+  platform.log(`Loaded accessory ${accessory.displayName}`);
+};
 
 Sonoff.prototype.removeAccessory = function (name) {
   const platform = this;
 
-  platform.log("Removing accessory " + name);
-  let remainingAccessories = [], removedAccessories = [];
+  platform.log(`Removing accessory ${name}`);
+  const remainingAccessories = [];
+  const removedAccessories = [];
 
-  for (let i = 0; i < platform.accessories.length; i++) {
+  for (let i = 0; i < platform.accessories.length; i += 1) {
     if (platform.accessories[i].displayName === name) {
       removedAccessories.push(platform.accessories[i]);
     } else {
@@ -121,15 +137,16 @@ Sonoff.prototype.removeAccessory = function (name) {
   }
 
   if (removedAccessories.length > 0) {
-    platform.api.unregisterPlatformAccessories(pluginName, platformName, removedAccessories);
+    platform.api.unregisterPlatformAccessories(pluginName, platformName,
+      removedAccessories);
     platform.accessories = remainingAccessories;
-    platform.log(removedAccessories.length + " accessories removed.");
+    platform.log(`${removedAccessories.length} accessories removed.`);
   }
-}
+};
 
-Sonoff.prototype.sendRequest = (url) => {
-  return new Promise(resolve => {
-    request(url, function (error, response) {
+Sonoff.prototype.sendRequest = function (url) {
+  return new Promise((resolve) => {
+    request(url, (error, response) => {
       if (error) {
         resolve(false);
         return;
@@ -138,5 +155,5 @@ Sonoff.prototype.sendRequest = (url) => {
       resolve(JSON.parse(response.body));
     });
   });
-}
+};
 
