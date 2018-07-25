@@ -1,10 +1,14 @@
 {
   "name": "homebridge-sonoff",
   "version": "1.0.0",
-  "description": "Control Sonoff Basic devices with Tasmota >5.10.0b firmware through Homebridge",
+  "description": "Control Sonoff devices with Tasmota >5.10.0b firmware through Homebridge",
   "main": "index.js",
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "Sonoff",
+    "Basic",
+    "WiFi",
+    "IoT"
   ],
   "author": "Alexander Babel",
   "license": "MIT",
