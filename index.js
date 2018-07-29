@@ -51,7 +51,7 @@ module.exports = (homebridge) => {
   homebridge.registerPlatform(pluginName, platformName, Sonoff, true);
 };
 
-Sonoff.prototype.addAccessory = function (index) {
+Sonoff.prototype.addAccessory = function addAccessory(index) {
   const platform = this;
 
   const accessoryName = platform.config.devices[index].name;
@@ -68,7 +68,7 @@ Sonoff.prototype.addAccessory = function (index) {
 };
 
 /* eslint max-len: ["error", { "ignoreComments": true }] no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsFor": ["accessory"] }] */
-Sonoff.prototype.configureAccessory = function (accessory) {
+Sonoff.prototype.configureAccessory = function configureAccessory(accessory) {
   const platform = this;
 
   platform.accessories.push(accessory);
@@ -121,7 +121,7 @@ Sonoff.prototype.configureAccessory = function (accessory) {
   platform.log(`Loaded accessory ${accessory.displayName}`);
 };
 
-Sonoff.prototype.removeAccessory = function (name) {
+Sonoff.prototype.removeAccessory = function removeAccessory(name) {
   const platform = this;
 
   platform.log(`Removing accessory ${name}`);
@@ -144,7 +144,7 @@ Sonoff.prototype.removeAccessory = function (name) {
   }
 };
 
-Sonoff.prototype.sendRequest = function (url) {
+Sonoff.prototype.sendRequest = function sendRequest(url) {
   return new Promise((resolve) => {
     request(url, (error, response) => {
       if (error) {
