@@ -7,7 +7,7 @@
 
 This is a plugin for [homebridge](https://github.com/nfarina/homebridge) which makes it possible to control Sonoff Basic devices with [Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware through HTTP only
 
-The Tasmota compatible version of the plugin is 5.11.0 and later
+**You need Tasmota v5.11.0 or higher if you want to use this plugin!**
 
 ![Demo](https://user-images.githubusercontent.com/13570439/43205164-09e198e8-9023-11e8-9e2d-22b4883ce28e.gif)
 
