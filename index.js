@@ -33,7 +33,7 @@ function Sonoff(log, config, api) {
     platform.api.on('didFinishLaunching', () => {
       platform.log('Cached accessories loaded.');
       if (platform.accessories.length < platform.config.devices.length) {
-        for (let i = platform.platform.accessories.length;
+        for (let i = platform.accessories.length;
           i < config.devices.length; i += 1) {
           platform.addAccessory(i);
         }
