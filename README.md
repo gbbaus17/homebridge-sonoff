@@ -32,7 +32,7 @@ http://sonoff/cm?cmnd=Power%20Off
   "name": "Sonoff",
   "devices": [
     {
-      "name": "Name of of the accessory",
+      "name": "Name of the accessory",
       "hostname": "The hostname or local ip address of the Sonoff device"
     }
   ]
@@ -47,7 +47,7 @@ http://sonoff/cm?cmnd=Power%20Off
   "name": "Sonoff",
   "devices": [
     {
-      "name": "Name of of the accessory",
+      "name": "Name of the accessory",
       "hostname": "The hostname or local ip address of the Sonoff device",
       "relay": "2"
     }
@@ -63,7 +63,7 @@ http://sonoff/cm?cmnd=Power%20Off
   "name": "Sonoff",
   "devices": [
     {
-      "name": "Name of of the accessory",
+      "name": "Name of the accessory",
       "hostname": "The hostname or local ip address of the Sonoff device",
       "password": "The password from the web interface"
     }
